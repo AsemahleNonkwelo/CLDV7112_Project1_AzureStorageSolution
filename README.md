@@ -1,78 +1,83 @@
-# CLDV7112 Project 1 — Azure Storage Solution
+# CLDV7112 Project 2 — Azure Functions Integration
 
-## ABC Retail
+This project extends the ABC Retail Azure Storage solution from Project 1 by adding four Azure Functions that call the same Azure Storage account used by the MVC application.
 
-This is an ASP.NET Core MVC web application created for **CLDV7112 Cloud Development B — Project 1**.
+## Functions
 
-The application demonstrates:
+1. **StoreCustomerInTable** — stores customer profile information in the `CustomerProfiles` Azure Table.
+2. **WriteToBlobStorage** — writes supplied content to the `productmedia` Blob container.
+3. **ProcessQueueTransaction** — writes a transaction message to `orderprocessing` and reads existing queue messages using `PeekMessagesAsync`.
+4. **SendFileToAzureFiles** — writes a log file to the `applicationlogs` Azure File share.
 
-1. Azure Table Storage — customer profiles and product-related information
-2. Azure Blob Storage — product images/multimedia
-3. Azure Queue Storage — order processing and inventory messages
-4. Azure File Storage — application log files
-5. Azure App Service — deployment target
+## Local configuration
 
-## Requirements
+Set the following values in `local.settings.json` using the same Azure Storage connection string used by Project 1:
 
-- .NET 8 SDK
-- Visual Studio 2022 with ASP.NET and web development workload
-- An Azure Storage Account
-- An Azure App Service
+- `AzureWebJobsStorage`
+- `AzureStorage`
 
-## Configure Azure Storage
+Never commit real credentials to GitHub.
 
-### Local Visual Studio
+## Local test examples
 
-Open `appsettings.json` and set:
+The local Functions host normally exposes endpoints under:
 
+`http://localhost:7071/api/<FunctionName>`
+
+Use POST requests with JSON bodies.
+
+### StoreCustomerInTable
 ```json
-"ConnectionStrings": {
-  "AzureStorage": "YOUR_AZURE_STORAGE_CONNECTION_STRING"
+{
+  "customerName": "Project 2 Test Customer",
+  "email": "project2@example.com",
+  "productInterest": "Laptop",
+  "orders": 2
 }
 ```
 
-Do not commit real connection strings to GitHub.
+### WriteToBlobStorage
+```json
+{
+  "fileName": "project2-test.txt",
+  "content": "ABC Retail Project 2 Blob test",
+  "contentType": "text/plain"
+}
+```
 
-### Azure App Service
+### ProcessQueueTransaction
+```json
+{
+  "message": "Processing Project 2 test order"
+}
+```
 
-After publishing, add an App Service application setting:
+### SendFileToAzureFiles
+```json
+{
+  "fileName": "project2-test.log",
+  "content": "ABC Retail Project 2 Azure Files test log"
+}
+```
 
-- Name: `ConnectionStrings__AzureStorage`
-- Value: your Azure Storage connection string
+## Deployment evidence
 
-The double underscore maps to the nested ASP.NET Core configuration key.
+For the Project 2 submission, capture:
 
-## Run
+- Function App overview and deployed functions.
+- Code for each function.
+- Successful Table response and the resulting Table entity.
+- Successful Blob response and the resulting Blob.
+- Successful Queue response and the resulting Queue message.
+- Successful Azure Files response and the resulting file in the share.
+- Deployed MVC application URL and Function App URL.
 
-1. Open `CLDV7112_Project1_AzureStorageSolution.csproj` in Visual Studio.
-2. Restore NuGet packages.
-3. Build the solution.
-4. Run the project.
-5. Open the Dashboard.
-6. Confirm that the status says **Azure Storage Connected**.
-7. Click **Seed Demo Data**.
+## Customer experience discussion
 
-The seed operation creates at least five examples for each required storage service.
+### Azure Event Hubs
+Azure Event Hubs is a managed event-ingestion service designed for high-throughput streams of events. In ABC Retail, it could collect large volumes of customer activity, such as product views, searches and order events. Applications can publish events to an Event Hub, while downstream consumers process those events independently. This could support near-real-time analytics and personalised experiences without tightly coupling the retail web application to every analytics consumer.
 
-## Evidence for the rubric
+### Azure Service Bus (Event Bus / enterprise messaging)
+Azure Service Bus provides reliable enterprise messaging using queues and topics. In ABC Retail, it could separate order processing, notifications, payment workflows and inventory operations into independent services. Producers send messages to queues or publish to topics, while consumers process them independently. Features such as dead-lettering, duplicate detection and scheduled delivery can improve reliability and operational control.
 
-After seeding, capture screenshots of:
-
-- Dashboard showing the four storage service counts.
-- Azure Table page showing at least 5 customer records.
-- Azure Portal Storage Browser showing at least 5 Table entities.
-- Blob page showing at least 5 product images.
-- Azure Portal Storage Browser showing at least 5 blobs.
-- Queue page showing at least 5 messages.
-- Azure Portal Storage Browser showing at least 5 queue messages.
-- Files page showing at least 5 log files.
-- Azure Portal Storage Browser showing at least 5 files.
-- Azure App Service overview/deployment.
-- Deployed web application in a browser.
-- GitHub repository.
-
-
-
-## Project 2 extension
-
-The solution also contains `CLDV7112_Project2_AzureFunctions`, an Azure Functions .NET 8 isolated-worker project that integrates four Functions with the same Azure Storage resources used by this MVC application. See the Function project README for test payloads and deployment evidence.
+These services are discussed for their potential customer-experience value; they are not required to replace the four implemented Project 2 Functions.
