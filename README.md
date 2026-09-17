@@ -60,18 +60,6 @@ Use POST requests with JSON bodies.
 }
 ```
 
-## Deployment evidence
-
-For the Project 2 submission, capture:
-
-- Function App overview and deployed functions.
-- Code for each function.
-- Successful Table response and the resulting Table entity.
-- Successful Blob response and the resulting Blob.
-- Successful Queue response and the resulting Queue message.
-- Successful Azure Files response and the resulting file in the share.
-- Deployed MVC application URL and Function App URL.
-
 ## Customer experience discussion
 
 ### Azure Event Hubs
