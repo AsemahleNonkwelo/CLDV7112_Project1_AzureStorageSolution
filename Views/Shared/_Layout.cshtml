@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ABC Retail Azure Storage</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+<header class="site-header">
+    <div class="container nav">
+        <a class="brand" asp-controller="Home" asp-action="Index">ABC Retail <span>Azure Storage</span></a>
+        <nav>
+            <a asp-controller="Home" asp-action="Index">Dashboard</a>
+            <a asp-controller="Customers" asp-action="Index">Tables</a>
+            <a asp-controller="Blobs" asp-action="Index">Blobs</a>
+            <a asp-controller="Queues" asp-action="Index">Queues</a>
+            <a asp-controller="Files" asp-action="Index">Files</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container main">
+    @if (TempData["Success"] is string success)
+    {
+        <div class="alert success">@success</div>
+    }
+    @if (TempData["Error"] is string error)
+    {
+        <div class="alert error">@error</div>
+    }
+
+    @RenderBody()
+</main>
+
+<footer class="footer">
+    <div class="container">CLDV7112 Project 1 • Azure Storage Solution • ABC Retail</div>
+</footer>
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

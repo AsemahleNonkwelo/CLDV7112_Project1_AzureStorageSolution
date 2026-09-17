@@ -1,0 +1,30 @@
+@model CustomerProfile
+@{
+    ViewData["Title"] = "Add Customer";
+}
+
+<div class="form-card">
+    <p class="eyebrow">AZURE TABLE STORAGE</p>
+    <h1>Add Customer Profile</h1>
+    <p>This form writes a new entity to Azure Table Storage.</p>
+
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="validation"></div>
+
+        <label asp-for="CustomerName">Customer Name</label>
+        <input asp-for="CustomerName" required />
+
+        <label asp-for="Email">Email Address</label>
+        <input asp-for="Email" type="email" required />
+
+        <label asp-for="ProductInterest">Product Interest</label>
+        <input asp-for="ProductInterest" required />
+
+        <label asp-for="Orders">Orders</label>
+        <input asp-for="Orders" type="number" min="0" required />
+
+        <button class="btn primary" type="submit">Save to Azure Table</button>
+        <a class="btn secondary" asp-action="Index">Cancel</a>
+    </form>
+</div>

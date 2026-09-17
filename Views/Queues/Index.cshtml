@@ -1,0 +1,40 @@
+@model IEnumerable<QueueMessageViewModel>
+@{
+    ViewData["Title"] = "Azure Queue Storage";
+}
+
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">AZURE QUEUE STORAGE</p>
+        <h1>Order & Inventory Queue</h1>
+        <p>Messages stored in the <strong>orderprocessing</strong> queue.</p>
+    </div>
+</div>
+
+<div class="upload-card">
+    <form asp-action="Send" method="post">
+        @Html.AntiForgeryToken()
+        <label>New processing message</label>
+        <input type="text" name="message" placeholder="e.g. Processing order #1010 - Laptop - Quantity 1" required />
+        <button class="btn primary" type="submit">Send Message</button>
+    </form>
+</div>
+
+<div class="queue-list">
+@foreach (var item in Model)
+{
+    <article class="queue-item">
+        <div class="queue-icon">Q</div>
+        <div>
+            <strong>@item.Body</strong>
+            <small>Message ID: @item.MessageId</small>
+            <small>Inserted: @(item.InsertedOn?.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss") ?? "N/A")</small>
+        </div>
+    </article>
+}
+</div>
+
+@if (!Model.Any())
+{
+    <div class="empty">No visible messages found. Seed demo data or send a new message.</div>
+}

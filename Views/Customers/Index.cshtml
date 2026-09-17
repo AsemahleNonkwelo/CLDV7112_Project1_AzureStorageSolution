@@ -1,0 +1,46 @@
+@model IEnumerable<CustomerProfile>
+@{
+    ViewData["Title"] = "Azure Table Storage";
+}
+
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">AZURE TABLE STORAGE</p>
+        <h1>Customer Profiles</h1>
+        <p>Customer and product-related information stored in the <strong>CustomerProfiles</strong> table.</p>
+    </div>
+    <a class="btn primary" asp-action="Create">+ Add Customer</a>
+</div>
+
+<div class="table-wrap">
+<table>
+    <thead>
+    <tr>
+        <th>Customer</th>
+        <th>Email</th>
+        <th>Product Interest</th>
+        <th>Orders</th>
+        <th>Row Key</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td><strong>@item.CustomerName</strong></td>
+            <td>@item.Email</td>
+            <td>@item.ProductInterest</td>
+            <td>@item.Orders</td>
+            <td><code>@item.RowKey</code></td>
+            <td><a class="btn small danger-outline" asp-action="Delete" asp-route-id="@item.RowKey">Delete</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="empty">No records found. Return to the dashboard and seed demo data.</div>
+}

@@ -1,0 +1,74 @@
+@model StorageDashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<section class="hero">
+    <div>
+        <p class="eyebrow">CLDV7112 • PROJECT 1</p>
+        <h1>ABC Retail Azure Storage Solution</h1>
+        <p>ASP.NET Core MVC application demonstrating Azure Table, Blob, Queue and File Storage.</p>
+    </div>
+    <div class="status @(Model.Connected ? "online" : "offline")">
+        <span></span>
+        @(Model.Connected ? "Azure Storage Connected" : "Storage Not Connected")
+    </div>
+</section>
+
+<div class="notice">
+    <strong>Assessment evidence:</strong> use the Seed Demo Data button after connecting to Azure Storage. It creates at least five records/files/messages in each required storage service.
+</div>
+
+<form asp-action="Seed" method="post" class="seed-form">
+    @Html.AntiForgeryToken()
+    <button class="btn primary" type="submit">Seed Demo Data</button>
+</form>
+
+@if (!Model.Connected && !string.IsNullOrWhiteSpace(Model.Error))
+{
+    <div class="alert error">
+        <strong>Connection error:</strong> @Model.Error
+        <p>Set the AzureStorage connection string in <code>appsettings.json</code> or as an Azure App Service configuration setting.</p>
+    </div>
+}
+
+<div class="cards">
+    <a class="card" asp-controller="Customers" asp-action="Index">
+        <div class="card-icon">T</div>
+        <h2>Azure Tables</h2>
+        <p>Customer profiles and product-related information.</p>
+        <strong>@Model.TableCount records</strong>
+    </a>
+
+    <a class="card" asp-controller="Blobs" asp-action="Index">
+        <div class="card-icon">B</div>
+        <h2>Azure Blobs</h2>
+        <p>Product images and multimedia content.</p>
+        <strong>@Model.BlobCount blobs</strong>
+    </a>
+
+    <a class="card" asp-controller="Queues" asp-action="Index">
+        <div class="card-icon">Q</div>
+        <h2>Azure Queues</h2>
+        <p>Order-processing and inventory messages.</p>
+        <strong>@Model.QueueCount messages</strong>
+    </a>
+
+    <a class="card" asp-controller="Files" asp-action="Index">
+        <div class="card-icon">F</div>
+        <h2>Azure Files</h2>
+        <p>Application and operational log files.</p>
+        <strong>@Model.FileCount files</strong>
+    </a>
+</div>
+
+<section class="requirements">
+    <h2>Project 1 Requirements</h2>
+    <div class="requirement-grid">
+        <div><b>01</b><span>Store customer profiles and product information using Azure Tables.</span></div>
+        <div><b>02</b><span>Host images and multimedia content using Azure Blob Storage.</span></div>
+        <div><b>03</b><span>Store order and inventory processing details in Azure Queues.</span></div>
+        <div><b>04</b><span>Store log files using Azure File Storage.</span></div>
+        <div><b>05</b><span>Deploy and test the application on Azure App Service.</span></div>
+    </div>
+</section>

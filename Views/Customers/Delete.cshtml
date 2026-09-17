@@ -1,0 +1,17 @@
+@model CustomerProfile
+@{
+    ViewData["Title"] = "Delete Customer";
+}
+
+<div class="form-card">
+    <p class="eyebrow">AZURE TABLE STORAGE</p>
+    <h1>Delete Customer</h1>
+    <p>Are you sure you want to delete <strong>@Model.CustomerName</strong>?</p>
+
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.RowKey" />
+        <button class="btn danger" type="submit">Delete Record</button>
+        <a class="btn secondary" asp-action="Index">Cancel</a>
+    </form>
+</div>
