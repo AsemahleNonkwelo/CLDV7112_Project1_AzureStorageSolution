@@ -71,30 +71,6 @@ After seeding, capture screenshots of:
 - Deployed web application in a browser.
 - GitHub repository.
 
-## Important submission requirement
-
-The assignment asks for a single MS Word submission document containing:
-
-- Student number
-- Module code
-- Deployed application URL
-- GitHub repository URL
-- Required screenshots
-
-The project source code itself should be stored in GitHub as instructed by the assessment brief. Do not upload ZIP/archive files to the GitHub repository.
-
-## Suggested Azure resource names
-
-You may use names such as:
-
-- Storage account: `cldv7112abcstorage`
-- App Service: `cldv7112-project1-<studentnumber>`
-
-Azure resource names must be globally unique, so change them if Azure reports that a name is already taken.
-
-## Security note
-
-Never publish a real Azure Storage connection string in a public GitHub repository. For production deployment, use Azure App Service configuration and, where required by the module, more secure identity-based configuration.
 
 
 ## Project 2 extension
